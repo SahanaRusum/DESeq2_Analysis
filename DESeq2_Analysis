@@ -1,0 +1,32 @@
+#Loading the library
+library("DESeq2") 
+
+# Load count data
+count <- read.csv("Count.csv")
+
+# Load metadata
+meta <- read.csv("meta.csv")
+
+# Check count data
+count
+
+# Check metadata
+meta
+
+# Create DESeqDataSet object
+dds <- DESeqDataSetFromMatrix(countData = count, colData = meta, design = ~Condition, tidy = TRUE)
+
+# Run DESeq analysis
+dds <- DESeq(dds)
+
+# Get results
+res <- results(dds)
+
+# Remove rows with NA values
+res <- na.omit(res)
+
+# Subset results (if needed)
+res1 <- subset(res)
+
+# Write results to a CSV file
+write.csv(res1, "CD.csv")
